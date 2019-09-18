@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class HashCrack {
     // Хеши Ильи
     static int hash1(int key){
@@ -24,10 +26,10 @@ public class HashCrack {
     }
     static void search2(int minKey, int maxKey){
         // TODO: ключ - значения
-        for (int i = minKey; i < (maxKey - 1); i++)
-            for (int j = minKey + 1; j < maxKey; j++)
-                if (hash2(i) == hash2(j))
-                    System.out.printf("keys: %d, %d; hash: %d", i, j, hash2(i));
+        for (int i = minKey; i <= (maxKey - 1); i++)
+            for (int j = i + 1; j <= maxKey; j++)
+                if (i != j && hash2(i) == hash2(j))
+                    System.out.printf("keys: %d, %d; hash: %d\n", i, j, hash2(i));
     }
     public static void main(String[] args) {
         System.out.println("hash1:\n" + hash1(1234));
@@ -35,6 +37,8 @@ public class HashCrack {
 
         System.out.println("\nhash2:\n" + hash2(1234));
         System.out.println(crack2(hash2(1234),0, 1000));
-        search2(0, 1000);
+
+        System.out.print("\nВведите maxKey: ");
+        search2(0, new Scanner(System.in).nextInt());
     }
 }
