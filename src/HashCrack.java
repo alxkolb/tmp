@@ -10,6 +10,7 @@ public class HashCrack {
         // ((key + 5)**3) % 1000
         return (int) Math.pow(key + 5, 3) % 1000;
     }
+
     // Их взлом
     static int crack1(int hash){
         int key;
@@ -25,6 +26,13 @@ public class HashCrack {
         return null;
     }
     static HashMap<Integer, Set<Integer>> search2(int minKey, int maxKey){
+        /**
+         *   Поиск коллизий в hash2 в диапазоне от minKey до maxKey
+         *
+         *   В HashMap ключ -- хеш-сумма, а в Set сохраняются все найденные коллизии,
+         * удовлетворяющие этой хеш-сумме
+         */
+        //
         HashMap<Integer, Set<Integer>> hashes =
                 new HashMap<>();
 
@@ -32,17 +40,21 @@ public class HashCrack {
             int hash_i = hash2(i);
             for (int j = i + 1; j <= maxKey; j++)
                 if (i != j && hash_i == hash2(j)){
+                    // Извлекаем Set для его дальнейшего изменения
                     Set<Integer> keys =
                             hashes.remove(hash2(i));
                     if (keys == null)
                         keys = new HashSet<>();
+                    // Добавляем найденные коллизии
                     keys.add(i);
                     keys.add(j);
+                    // И связываем их с хеш-суммой
                     hashes.put(hash_i, keys);
                 }
         }
         return hashes;
     }
+
     public static void main(String[] args) {
         System.out.println("hash1:\n" + hash1(1234));
         System.out.println(crack1(hash1(1234)));
