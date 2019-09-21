@@ -32,26 +32,23 @@ public class HashCrack {
          *   В HashMap ключ -- хеш-сумма, а в Set сохраняются все найденные коллизии,
          * удовлетворяющие этой хеш-сумме
          */
-        //
         HashMap<Integer, Set<Integer>> hashes =
                 new HashMap<>();
 
-        for (int i = minKey; i <= (maxKey - 1); i++){
-            int hash_i = hash2(i);
-            for (int j = i + 1; j <= maxKey; j++)
-                if (i != j && hash_i == hash2(j)){
-                    // Извлекаем Set для его дальнейшего изменения
-                    Set<Integer> keys =
-                            hashes.remove(hash2(i));
-                    if (keys == null)
-                        keys = new HashSet<>();
-                    // Добавляем найденные коллизии
-                    keys.add(i);
-                    keys.add(j);
-                    // И связываем их с хеш-суммой
-                    hashes.put(hash_i, keys);
-                }
+        for (int key = minKey; key <= maxKey; key++){
+            int hash = hash2(key);
+            Set<Integer> set = hashes.get(hash);
+            if (set == null)
+                set = new HashSet<>();
+            set.add(key);
+            hashes.put(hash, set);
         }
+        // Удаляем все хеши к у которых не найдены коллизии
+        for (Object hash : hashes.keySet().toArray()){
+            if (hashes.get(hash).size() == 1)
+                hashes.remove(hash);
+        }
+
         return hashes;
     }
 
