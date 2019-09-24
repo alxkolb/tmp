@@ -25,23 +25,23 @@ public class HashCrack {
                 return key;
         return null;
     }
-    static HashMap<Integer, Set<Integer>> search2(int minKey, int maxKey){
+    static HashMap<Integer, List<Integer>> search2(int minKey, int maxKey){
         /**
          *   Поиск коллизий в hash2 в диапазоне от minKey до maxKey
          *
          *   В HashMap ключ -- хеш-сумма, а в Set сохраняются все найденные коллизии,
          * удовлетворяющие этой хеш-сумме
          */
-        HashMap<Integer, Set<Integer>> hashes =
+        HashMap<Integer, List<Integer>> hashes =
                 new HashMap<>();
 
         for (int key = minKey; key <= maxKey; key++){
             int hash = hash2(key);
-            Set<Integer> set = hashes.get(hash);
-            if (set == null)
-                set = new HashSet<>();
-            set.add(key);
-            hashes.put(hash, set);
+            List<Integer> list = hashes.get(hash);
+            if (list == null)
+                list = new LinkedList<>();
+            list.add(key);
+            hashes.put(hash, list);
         }
         // Удаляем все хеши к у которых не найдены коллизии
         for (Object hash : hashes.keySet().toArray()){
