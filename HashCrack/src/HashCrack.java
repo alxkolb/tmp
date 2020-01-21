@@ -12,6 +12,8 @@ public class HashCrack {
     }
 
     // Их взлом
+    
+    // Взлом 1-ой хеш-функции
     static int crack1(int hash){
         int key;
         key = hash ^ 1537;
@@ -19,15 +21,17 @@ public class HashCrack {
         key = key >> 2;
         return key;
     }
+    // Взлом 2-ой хеш-функции
     static Integer crack2(int hash, int minKey, int maxKey){
         for (int key = minKey; key < maxKey; key++ )
             if (hash2(key) == hash)
                 return key;
+        // Коллизии не найдены
         return null;
     }
     static HashMap<Integer, List<Integer>> search2(int minKey, int maxKey){
         /**
-         *   Поиск коллизий в hash2 в диапазоне от minKey до maxKey
+         *   Поиск коллизий второго рода в hash2 в диапазоне от minKey до maxKey
          *
          *   В HashMap ключ -- хеш-сумма, а в Set сохраняются все найденные коллизии,
          * удовлетворяющие этой хеш-сумме
