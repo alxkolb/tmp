@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class HashCrack {
-    // Хеши Ильи
+    // Хеши Веры
     static int hash1(int key){
         // ((key << 2)**2) ^ 1537
         return (int) Math.pow(key << 2, 2) ^ 1537;
